@@ -10,7 +10,7 @@ It is also the first time we consider the idea of **future-proof** software.
 
 Personal Notes Manager is a text-based note-taking system that stores notes as UTF-8 text files with YAML headers for metadata. This project serves as an educational tool for students to learn file manipulation, parsing, and progressively more advanced application architectures.
 
-https://zcw.guru/kristofer/javapygitignore
+https://zcw.guru/kristofer/javapygitignore (you might need this for your project?)
 
 ## Future-Proof software
 
