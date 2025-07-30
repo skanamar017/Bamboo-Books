@@ -219,6 +219,8 @@ def main():
         filename = os.path.join(notes_dir, f"note{i}.txt")
         save_note_to_file(note, filename)
 
+    print(list_files_in_directory(notes_dir))
+
     print("\nAll Notes:")
     all_notes = list_all_notes(notes_dir)
     display_note_list(all_notes)
