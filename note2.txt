@@ -1,0 +1,8 @@
+---
+title: My Second Note
+created: 2025-07-30 10:01:57.850049
+modified: 2025-07-30 10:01:57.850056
+tags: [example, test]
+---
+
+Example Test!
