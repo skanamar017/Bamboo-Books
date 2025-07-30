@@ -20,3 +20,4 @@ class Note: # title:str, created: datetime, and modified: datetime are required 
         self.author = author
         self.status = status
         self.priority = priority
+        self.filename=None
