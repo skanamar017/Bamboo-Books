@@ -1,7 +1,7 @@
 ---
 title: Weekend Plans
-created: 2025-07-31 09:50:02.649317
-modified: 2025-07-31 09:50:02.649318
+created: 2025-07-31 15:04:46.878122
+modified: 2025-07-31 15:04:46.878123
 tags: [plans, Marvel, productive]
 ---
 

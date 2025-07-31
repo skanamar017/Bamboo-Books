@@ -1,8 +1,0 @@
----
-title: My First Note
-created: 2025-07-31 09:48:31.739777
-modified: 2025-07-31 09:48:31.739781
-tags: []
----
-
-Hello There!

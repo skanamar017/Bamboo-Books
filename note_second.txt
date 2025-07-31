@@ -1,7 +1,7 @@
 ---
 title: My Second Note
-created: 2025-07-31 09:50:02.648322
-modified: 2025-07-31 09:50:02.648323
+created: 2025-07-31 15:04:46.877705
+modified: 2025-07-31 15:04:46.877705
 tags: [example, test]
 ---
 

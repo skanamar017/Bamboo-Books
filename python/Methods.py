@@ -187,7 +187,8 @@ def select_note_interactively(notes):
     
     return notes[note_index]
     
-def edit_note(note):
+def edit_note(note, dir):
+
     print(f"Current title: {note.title}")
     print("New title (or press Enter to keep current): ")
     new_title=input()
@@ -209,11 +210,13 @@ def edit_note(note):
     print(f"Current tags: {", ".join(note.tags)}")
     print ("New tags (comma-separated, or Enter to keep current): ")
     tag_input=input()
-    if tag_input!="":
+    if tag_input:
         note.tags=tag_input.split(',')
         note.tags = [tag.strip() for tag in note.tags]
     
     note.modified=datetime.now()
+    full_path = os.path.join(dir, os.path.basename(note.filename))    
+    save_note_to_file(note, full_path)
     return note
 
 def delete_note(note):
@@ -272,12 +275,12 @@ def main():
     #test for note creation, reading, and YAML implemention
     note1 = create_note("My First Note", "Hello There!")
     save_note_to_file(note1, "note_first.txt")
-    read_note1 = read_note_from_file("note1.txt")
+    read_note1 = read_note_from_file("note_first.txt")
     print(f"Title: {read_note1.title}\nContent: {read_note1.content}")
 
     note2 = create_note("My Second Note", "Example Test!", ["example", "test"])
     save_note_to_file(note2, "note_second.txt")
-    read_note2 = read_note_from_file("note2.txt")
+    read_note2 = read_note_from_file("note_second.txt")
     print(f"Title: {read_note2.title}\nContent: {read_note2.content}")
 
 
@@ -325,15 +328,19 @@ def main():
 
 
     #test for note editing and deletion
-    note_used=select_note_interactively(all_notes)
-
-    note_used=edit_note(note_used)
-
-    is_deleted=delete_note(note_used)
-
-    print(is_deleted)
-
-
+    print(notes_dir)
+    while True:
+        question=input("Select: edit, delete, press andy other key to quit \n")
+        if question=='edit':
+            note_used=select_note_interactively(all_notes)
+            note_used=edit_note(note_used, notes_dir)
+        elif question=='delete':
+            note_used=select_note_interactively(all_notes)
+            is_deleted=delete_note(note_used)
+            print(is_deleted)
+        else:
+            print("quitting")
+            break
 
 
 if __name__ == "__main__":
