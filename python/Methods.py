@@ -11,6 +11,7 @@ import yaml
 from datetime import datetime
 from typing import List, Dict, Optional
 from Note import Note
+import shutil
 
 #note creation, reading, and YAML implemention
 
@@ -172,6 +173,94 @@ def display_note(note):
 
 
 
+# note editing and deletion
+def select_note_interactively(notes):
+    display_note_list(notes)
+    print(f"Enter note number (1-{len(notes)})")
+    
+    user_input=input()
+    note_index=int(user_input)-1
+
+    if note_index<0 or note_index>=len(notes):
+        print("Invalid selection")
+        return None
+    
+    return notes[note_index]
+    
+def edit_note(note):
+    print(f"Current title: {note.title}")
+    print("New title (or press Enter to keep current): ")
+    new_title=input()
+    if new_title:
+        note.title=new_title
+    
+    print(f"Current content: {note.content}")
+    print("\nEnter new content (type 'END' on a line by itself to finish):")
+
+    new_content=''
+    while True:
+        line=input()
+        if line=="END":
+            break
+        new_content+=line+"\n"
+    if new_content:
+        note.content=new_content.strip()
+    
+    print(f"Current tags: {", ".join(note.tags)}")
+    print ("New tags (comma-separated, or Enter to keep current): ")
+    tag_input=input()
+    if tag_input!="":
+        note.tags=tag_input.split(',')
+        note.tags = [tag.strip() for tag in note.tags]
+    
+    note.modified=datetime.now()
+    return note
+
+def delete_note(note):
+    
+    file_path = os.path.abspath(note.filename)
+    print(f"Attempting to back up: {file_path}")
+
+
+
+    print(f"Are you sure you want to delete {note.title}?")
+    conformation=input()
+    if conformation.lower()!="yes":
+        print("Deletion cancalled")
+        return False
+
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_file_name = f"{note.filename}.backup.{timestamp}"
+    shutil.copyfile(note.filename, backup_file_name)
+    print(f"Backup created: {backup_file_name}")
+    os.remove(note.filename)
+    print(f"Deleted: {note.filename}")
+    return True
+
+
+
+
+
+    
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -180,17 +269,19 @@ def main():
     notes_dir="directory"
     ensure_notes_directory(notes_dir)
 
-
+    #test for note creation, reading, and YAML implemention
     note1 = create_note("My First Note", "Hello There!")
-    save_note_to_file(note1, "note1.txt")
+    save_note_to_file(note1, "note_first.txt")
     read_note1 = read_note_from_file("note1.txt")
     print(f"Title: {read_note1.title}\nContent: {read_note1.content}")
 
     note2 = create_note("My Second Note", "Example Test!", ["example", "test"])
-    save_note_to_file(note2, "note2.txt")
+    save_note_to_file(note2, "note_second.txt")
     read_note2 = read_note_from_file("note2.txt")
     print(f"Title: {read_note2.title}\nContent: {read_note2.content}")
 
+
+    #test for note listing and basic search
     notes_5=[
         ("My Favorite Anime", "Jojo's Bizzare adventure, Fullmetal, Dragon Ball", ["anime", "intrests"]),
         ("Weekend Plans", "I will work on this project and watch the Fantastic Four movie", ['plans', 'Marvel', 'productive']),
@@ -199,8 +290,7 @@ def main():
         ('wakrjfh', 'ekhufgs kaeufhslieu aeukhfg keufb', ['random', 'bull', 'shit'])
     ]
 
-
-    for i, (title, content, tags) in enumerate(notes_5, start=3):
+    for i, (title, content, tags) in enumerate(notes_5, start=1):
         note = create_note(title, content, tags)
         filename = os.path.join(notes_dir, f"note{i}.txt")
         save_note_to_file(note, filename)
@@ -221,9 +311,29 @@ def main():
     display_note_list(results_content)
 
 
-    print("\n🔍 Search for tag 'shit':")
+    print("\nSearch for tag 'shit':")
     results_tag = search_notes(all_notes, "shit")
     display_note_list(results_tag)
+
+    '''
+
+    note9 = create_note("My Ninth Note", "This is the ninth note, the ninth note says Hello There!", ['deleted', 'sucks to suck'])
+    filename = os.path.join(notes_dir, f"note9.txt")
+    save_note_to_file(note9, filename)
+    '''
+
+
+
+    #test for note editing and deletion
+    note_used=select_note_interactively(all_notes)
+
+    note_used=edit_note(note_used)
+
+    is_deleted=delete_note(note_used)
+
+    print(is_deleted)
+
+
 
 
 if __name__ == "__main__":

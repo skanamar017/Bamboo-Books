@@ -1,8 +1,8 @@
 ---
-title: My Favorite Anime
-created: 2025-07-30 16:30:19.453046
-modified: 2025-07-30 16:30:19.453046
-tags: [anime, intrests]
+title: Tasks for Tonight
+created: 2025-07-31 09:50:02.649477
+modified: 2025-07-31 09:50:02.649478
+tags: [career, friend]
 ---
 
-Jojo's Bizzare adventure, Fullmetal, Dragon Ball
+finish this part of the project and update Linkedin from what Lam said
