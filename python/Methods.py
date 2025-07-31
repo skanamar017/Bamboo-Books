@@ -34,6 +34,7 @@ def save_note_to_file(note: Note, filename: str) -> None:
     yamlHeader += "tags: [" + ", ".join(note.tags) + "]\n"
     yamlHeader += "---\n\n"
 
+    note.filename = filename  
     file_content = yamlHeader + note.content
     write_to_file(filename, file_content)
 
@@ -219,7 +220,7 @@ def edit_note(note, dir):
     save_note_to_file(note, full_path)
     return note
 
-def delete_note(note):
+def delete_note(note, dir):
     
     file_path = os.path.abspath(note.filename)
     print(f"Attempting to back up: {file_path}")
@@ -235,9 +236,11 @@ def delete_note(note):
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_file_name = f"{note.filename}.backup.{timestamp}"
-    shutil.copyfile(note.filename, backup_file_name)
+    full_path = os.path.join(dir, os.path.basename(note.filename))
+
+    shutil.copyfile(full_path, backup_file_name)
     print(f"Backup created: {backup_file_name}")
-    os.remove(note.filename)
+    os.remove(full_path)
     print(f"Deleted: {note.filename}")
     return True
 
@@ -273,15 +276,15 @@ def main():
     ensure_notes_directory(notes_dir)
 
     #test for note creation, reading, and YAML implemention
-    note1 = create_note("My First Note", "Hello There!")
-    save_note_to_file(note1, "note_first.txt")
-    read_note1 = read_note_from_file("note_first.txt")
-    print(f"Title: {read_note1.title}\nContent: {read_note1.content}")
+    note_first = create_note("My First Note", "Hello There!")
+    save_note_to_file(note_first, "note_first.txt")
+    read_note_first = read_note_from_file("note_first.txt")
+    print(f"Title: {read_note_first.title}\nContent: {read_note_first.content}")
 
-    note2 = create_note("My Second Note", "Example Test!", ["example", "test"])
-    save_note_to_file(note2, "note_second.txt")
-    read_note2 = read_note_from_file("note_second.txt")
-    print(f"Title: {read_note2.title}\nContent: {read_note2.content}")
+    note_second = create_note("My Second Note", "Example Test!", ["example", "test"])
+    save_note_to_file(note_second, "note_second.txt")
+    read_note_second = read_note_from_file("note_second.txt")
+    print(f"Title: {read_note_second.title}\nContent: {read_note_second.content}")
 
 
     #test for note listing and basic search
@@ -296,6 +299,7 @@ def main():
     for i, (title, content, tags) in enumerate(notes_5, start=1):
         note = create_note(title, content, tags)
         filename = os.path.join(notes_dir, f"note{i}.txt")
+        note.filename = filename
         save_note_to_file(note, filename)
 
     print(list_files_in_directory(notes_dir))
@@ -336,7 +340,7 @@ def main():
             note_used=edit_note(note_used, notes_dir)
         elif question=='delete':
             note_used=select_note_interactively(all_notes)
-            is_deleted=delete_note(note_used)
+            is_deleted=delete_note(note_used, notes_dir)
             print(is_deleted)
         else:
             print("quitting")
