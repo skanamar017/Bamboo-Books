@@ -14,7 +14,6 @@ from Note import Note
 import shutil
 
 #note creation, reading, and YAML implemention
-
 def create_note(title: str, content: str, tags: Optional[List[str]]=None) -> Note:
     """Create a new note with the given title and content."""
     note = Note(title, content, tags=tags)
@@ -33,7 +32,6 @@ def save_note_to_file(note: Note, filename: str) -> None:
     yamlHeader += "modified: " + str(note.modified) + "\n"
     yamlHeader += "tags: [" + ", ".join(note.tags) + "]\n"
     yamlHeader += "---\n\n"
-
     note.filename = filename  
     file_content = yamlHeader + note.content
     write_to_file(filename, file_content)
@@ -42,56 +40,27 @@ def read_from_file(filename: str) -> str:
     """Read content from a file and return it as a string."""
     with open(filename, "r") as file:
         return file.read()  
-
+    
 def read_note_from_file(filename: str) -> Note:
     """Read a note from a file and return a Note object."""
     content = read_from_file(filename)
     if not content.startswith("---"):
-        raise ValueError("File does not contain a valid YAML header.")
-    
+        raise ValueError("File does not contain a valid YAML header.")  
     parts=content.split("---", 2)
     yaml_section = parts[1].strip()
     note_content = parts[2].strip() if len(parts) > 2 else ""
-
-    metadata = yaml.safe_load(yaml_section)
-    
-    
+    metadata = yaml.safe_load(yaml_section) 
     title = metadata.get("title", "")
     content = note_content
     tags = metadata.get("tags", [])
-
-    note=Note(title, content, tags)
-    
+    note=Note(title, content, tags)  
     note.created = metadata.get("created")
     note.modified = metadata.get("modified")
-    note.tags = metadata.get("tags", [])
-    
+    note.tags = metadata.get("tags", []) 
     return note
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #note listing and basic search
-
-#make a notes directory if one doesn't exist yet
 def ensure_notes_directory(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -124,7 +93,6 @@ def list_all_notes(notes_directory):
 def search_notes(notes, query):
     results=[]
     query=query.lower()
-
     for note in notes:
         if query in note.title.lower():
             results.append(note)
@@ -136,7 +104,6 @@ def search_notes(notes, query):
             if query in tag.lower():
                 results.append(note)
                 break
-
     return results
 
 def display_note_list(notes):
@@ -156,49 +123,25 @@ def display_note(note):
         print(f"Tags: {", ".join(note.tags)}")
     print("\n"+note.content)
 
-    
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
 
 # note editing and deletion
 def select_note_interactively(notes):
-    display_note_list(notes)
-    print(f"Enter note number (1-{len(notes)})")
-    
+    print(f"Enter note number (1-{len(notes)})")  
     user_input=input()
     note_index=int(user_input)-1
-
     if note_index<0 or note_index>=len(notes):
         print("Invalid selection")
         return None
-    
     return notes[note_index]
     
 def edit_note(note, dir):
-
     print(f"Current title: {note.title}")
     print("New title (or press Enter to keep current): ")
     new_title=input()
     if new_title:
         note.title=new_title
-    
     print(f"Current content: {note.content}")
     print("\nEnter new content (type 'END' on a line by itself to finish):")
-
     new_content=''
     while True:
         line=input()
@@ -206,69 +149,32 @@ def edit_note(note, dir):
             break
         new_content+=line+"\n"
     if new_content:
-        note.content=new_content.strip()
-    
+        note.content=new_content.strip()  
     print(f"Current tags: {", ".join(note.tags)}")
     print ("New tags (comma-separated, or Enter to keep current): ")
     tag_input=input()
     if tag_input:
         note.tags=tag_input.split(',')
         note.tags = [tag.strip() for tag in note.tags]
-    
     note.modified=datetime.now()
     full_path = os.path.join(dir, os.path.basename(note.filename))    
     save_note_to_file(note, full_path)
     return note
 
 def delete_note(note, dir):
-    
-    file_path = os.path.abspath(note.filename)
-    print(f"Attempting to back up: {file_path}")
-
-
-
     print(f"Are you sure you want to delete {note.title}?")
     conformation=input()
     if conformation.lower()!="yes":
         print("Deletion cancalled")
         return False
-
-
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     backup_file_name = f"{note.filename}.backup.{timestamp}"
     full_path = os.path.join(dir, os.path.basename(note.filename))
-
     shutil.copyfile(full_path, backup_file_name)
     print(f"Backup created: {backup_file_name}")
     os.remove(full_path)
     print(f"Deleted: {note.filename}")
     return True
-
-
-
-
-
-    
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def main():
@@ -280,12 +186,10 @@ def main():
     save_note_to_file(note_first, "note_first.txt")
     read_note_first = read_note_from_file("note_first.txt")
     print(f"Title: {read_note_first.title}\nContent: {read_note_first.content}")
-
     note_second = create_note("My Second Note", "Example Test!", ["example", "test"])
     save_note_to_file(note_second, "note_second.txt")
     read_note_second = read_note_from_file("note_second.txt")
     print(f"Title: {read_note_second.title}\nContent: {read_note_second.content}")
-
 
     #test for note listing and basic search
     notes_5=[
@@ -295,41 +199,23 @@ def main():
         ('Harry Potter review', 'Boy spends 7 years being third wheel', ['fantacy', 'review', 'shitpost']),
         ('wakrjfh', 'ekhufgs kaeufhslieu aeukhfg keufb', ['random', 'bull', 'shit'])
     ]
-
     for i, (title, content, tags) in enumerate(notes_5, start=1):
         note = create_note(title, content, tags)
         filename = os.path.join(notes_dir, f"note{i}.txt")
         note.filename = filename
         save_note_to_file(note, filename)
-
-    print(list_files_in_directory(notes_dir))
-
     print("\nAll Notes:")
     all_notes = list_all_notes(notes_dir)
     display_note_list(all_notes)
-
-
     print("\nSearch for 'Plans' in titles:")
     results_title = search_notes(all_notes, "Plans")
     display_note_list(results_title)
-
     print("\nSearch for 'Project' in titles:")
     results_content = search_notes(all_notes, "Project")
     display_note_list(results_content)
-
-
     print("\nSearch for tag 'shit':")
     results_tag = search_notes(all_notes, "shit")
     display_note_list(results_tag)
-
-    '''
-
-    note9 = create_note("My Ninth Note", "This is the ninth note, the ninth note says Hello There!", ['deleted', 'sucks to suck'])
-    filename = os.path.join(notes_dir, f"note9.txt")
-    save_note_to_file(note9, filename)
-    '''
-
-
 
     #test for note editing and deletion
     print(notes_dir)
@@ -349,5 +235,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
 

@@ -1,8 +1,8 @@
 ---
-title: My Favorite Anime
-created: 2025-07-31 16:19:48.748228
-modified: 2025-07-31 16:19:48.748229
+title: no anime
+created: 2025-07-31 18:49:06.789639
+modified: 2025-07-31 19:01:44.773872
 tags: [anime, intrests]
 ---
 
-Jojo's Bizzare adventure, Fullmetal, Dragon Ball
+no anime
