@@ -1,7 +1,7 @@
 ---
 title: Tasks for Tonight
-created: 2025-07-31 18:49:06.789793
-modified: 2025-07-31 18:49:06.789794
+created: 2025-08-01 16:36:16.294185
+modified: 2025-08-01 16:36:16.294185
 tags: [career, friend]
 ---
 

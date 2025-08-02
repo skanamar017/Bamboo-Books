@@ -90,6 +90,13 @@ def list_all_notes(notes_directory):
             print("Warning: Could not read "+file)
     return notes
 
+def list_note_by_tag(notes, tag):
+    results=[]
+    for note in notes:
+        if tag in note.tags:
+            results.append(note)
+    return results
+
 def search_notes(notes, query):
     results=[]
     query=query.lower()
@@ -180,7 +187,6 @@ def delete_note(note, dir):
 def main():
     notes_dir="directory"
     ensure_notes_directory(notes_dir)
-
     #test for note creation, reading, and YAML implemention
     note_first = create_note("My First Note", "Hello There!")
     save_note_to_file(note_first, "note_first.txt")
@@ -190,7 +196,7 @@ def main():
     save_note_to_file(note_second, "note_second.txt")
     read_note_second = read_note_from_file("note_second.txt")
     print(f"Title: {read_note_second.title}\nContent: {read_note_second.content}")
-
+    
     #test for note listing and basic search
     notes_5=[
         ("My Favorite Anime", "Jojo's Bizzare adventure, Fullmetal, Dragon Ball", ["anime", "intrests"]),
@@ -216,6 +222,9 @@ def main():
     print("\nSearch for tag 'shit':")
     results_tag = search_notes(all_notes, "shit")
     display_note_list(results_tag)
+    print("\nSearch note for tag 'intrests':")
+    interest_tag_list=list_note_by_tag(all_notes,"intrests")
+    display_note_list(interest_tag_list)
 
     #test for note editing and deletion
     print(notes_dir)
