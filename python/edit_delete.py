@@ -6,10 +6,8 @@ Simple formatting options
 """
 
 import os
-import pathlib
-import yaml 
+
 from datetime import datetime
-from typing import List, Dict, Optional
 from Note import Note
 import shutil
 

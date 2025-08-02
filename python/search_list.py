@@ -6,12 +6,8 @@ Simple formatting options
 """
 
 import os
-import pathlib
-import yaml 
 from datetime import datetime
-from typing import List, Dict, Optional
 from Note import Note
-import shutil
 
 import creation_reading 
 
@@ -58,12 +54,8 @@ def search_notes(notes, query):
     results=[]
     query=query.lower()
     for note in notes:
-        if query in note.title.lower():
+        if query in note.title.lower() or query in note.content.lower():
             results.append(note)
-            continue
-        if query in note.content.lower():
-            results.append(note)
-            continue
         for tag in note.tags:
             if query in tag.lower():
                 results.append(note)

@@ -1,7 +1,7 @@
 ---
 title: My Favorite Anime
-created: 2025-08-02 10:56:11.404335
-modified: 2025-08-02 10:56:11.404336
+created: 2025-08-02 13:18:23.130302
+modified: 2025-08-02 13:18:23.130302
 tags: [anime, intrests]
 ---
 

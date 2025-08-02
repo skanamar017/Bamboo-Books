@@ -5,13 +5,10 @@ Note searching and filtering capabilities
 Simple formatting options
 """
 
-import os
-import pathlib
+
 import yaml 
-from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Optional
 from Note import Note
-import shutil
 
 #note creation, reading, and YAML implemention
 def create_note(title: str, content: str, tags: Optional[List[str]]=None) -> Note:
