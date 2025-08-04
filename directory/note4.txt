@@ -1,7 +1,7 @@
 ---
 title: Harry Potter review
-created: 2025-08-02 13:18:23.130978
-modified: 2025-08-02 13:18:23.130979
+created: 2025-08-04 08:44:56.260203
+modified: 2025-08-04 08:44:56.260204
 tags: [fantacy, review, shitpost]
 ---
 
