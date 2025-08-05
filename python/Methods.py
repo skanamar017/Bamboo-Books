@@ -17,7 +17,6 @@ import creation_reading
 import search_list 
 import edit_delete 
 import advance_search
-import stats
 
 
 def main():
@@ -65,7 +64,7 @@ def main():
     #test for note editing and deletion
     print(notes_dir)
     while True:
-        question=input("Select: edit, delete, press andy other key to quit \n")
+        question=input("Select: edit, delete, create, press any other key to quit \n")
         if question=='edit':
             note_used=edit_delete.select_note_interactively(all_notes)
             note_used=edit_delete.edit_note(note_used, notes_dir)
@@ -73,9 +72,19 @@ def main():
             note_used=edit_delete.select_note_interactively(all_notes)
             is_deleted=edit_delete.delete_note(note_used, notes_dir)
             print(is_deleted)
+        elif question=='create':
+            title=str(input("Whats the title?"))
+            content=str(input("whats the content? "))
+            tags=str(input("what are the tags (sepatare by commas)? "))
+            tags=tags.split(',')
+            note = creation_reading.create_note(title, content, tags)
+            filename = os.path.join(notes_dir, f"{title}.txt")
+            note.filename = filename
+            creation_reading.save_note_to_file(note, filename)
         else:
             print("quitting")
             break
+    
 
 
 if __name__ == "__main__":

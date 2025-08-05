@@ -1,5 +1,7 @@
 import os
 import yaml
+import creation_reading
+
 
 def stats(dir):
     """Display statistics about all notes."""
@@ -39,5 +41,6 @@ def stats(dir):
         print(f"  {tag}: {count}")
 
 # Run the stats function
-stats()
+notes_dir="directory"
+stats(notes_dir)
 
